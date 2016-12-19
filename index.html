@@ -192,30 +192,13 @@
           var level = $(".level").val()
           var key = $(".code").val().substr(3)
 	  console.log(key)
-          var str;
-          switch (level) {
-              case "Cheif":
-                  str = "DAY"
-                  break;
-              case "Command":
-                  str = "COM"
-                  break;
-              case "Moderator":
-                  str = "MOD"
-                  break;
-              case "Member":
-                  str = "MEM"
-                  break;
-              case "Allied Member":
-                  str = "FSC"
-                  break;
-          }
           $.ajax({
               url: "https://skydriftersauth.000webhostapp.com/sdauth.php?lvl="+level,
               method: "GET",
               dataType: "text",
               success: function (data) {
-                  if(key === data){
+		      console.log(data)
+                  if(data == key){
                       console.log("Succesfully Verified")
                   } else {
                       console.log("Not Verified")
