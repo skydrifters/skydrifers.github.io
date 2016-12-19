@@ -191,6 +191,7 @@
       function getCode() {
           var level = $(".level").val()
           var key = $(".code").val().substr(3)
+	  console.log(key)
           var str;
           switch (level) {
               case "Cheif":
@@ -210,12 +211,9 @@
                   break;
           }
           $.ajax({
-              url: "https://skydriftersauth.000webhostapp.com/sdauth.php",
+              url: "https://skydriftersauth.000webhostapp.com/sdauth.php?lvl="+level,
               method: "GET",
               dataType: "text",
-              headers: {
-                  "X-AUTH-LEVEL":level,
-              },
               success: function (data) {
                   if(key === data){
                       console.log("Succesfully Verified")
