@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="//cdn.rawgit.com/jpillora/xdomain/0.7.4/dist/xdomain.min.js" slave="http://sdauth.esy.es/proxy.html"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>The Sky Drifters</title>
@@ -18,12 +19,12 @@
 					<div class="row">
 						<div class="input-field col s6">
 							<i class="material-icons prefix">account_circle</i>
-							<input id="icon_prefix" type="text" class="validate">
+							<input id="icon_prefix" type="text" class="validate level">
 							<label for="icon_prefix" data-error="Wrong Format" data-success="OK">Access Level</label>
 						</div>
 						<div class="input-field col s6">
 							<i class="material-icons prefix">vpn_key</i>
-							<input id="icon_telephone" type="password" class="validate" length="11">
+							<input id="icon_telephone" type="password" class="validate code">
 							<label for="icon_telephone" data-error="Bad Format" data-success="OK">Passcode</label>
 						</div>
 					</div>
@@ -35,14 +36,14 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class="modal-action modal-close green-text waves-effect waves-light btn-flat">Go</a>
+			<a href="#!" onclick="getCode()" class="modal-action modal-close green-text waves-effect waves-light btn-flat">Go</a>
 			<a href="#!" class="modal-action modal-close red-text waves-effect waves-light btn-flat">Cancel</a>
 		</div>
 	</div>
 
   <nav class="cyan darken-1" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo"><img height="55" width="55" src="https://1suddo2kmul411y9l03duj9d-wpengine.netdna-ssl.com/wp-content/uploads/alliance-emblem/71539169cd0df00250f44eff3e30d6f5.svg"></a>
+      <a id="logo-container" href="#" class="brand-logo"><img alt="Logo" height="55" width="55" src="https://1suddo2kmul411y9l03duj9d-wpengine.netdna-ssl.com/wp-content/uploads/alliance-emblem/71539169cd0df00250f44eff3e30d6f5.svg"></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#loginmodal" class="white-text modal-trigger">Members</a></li>
       </ul>
@@ -178,43 +179,58 @@
       </div>
     </div>
   </footer>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script>
-   $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
-        
-	function getPass(){
-		var today = new Date();
-		var dd = String(today.getDate());
-		var mm = String(today.getMonth()) + 1;
-		var yyyy = String(today.getFullYear());
-		var code = parseInt(yyyy.charAt(1)+yyyy.charAt(2)+mm.charAt(0)+dd.charAt(0)+mm.charAt(1)+dd.charAt(1))
-		code = code * 1.5
-		return code
-	}	
-	
-	function sendUpdatedWebhook(){
-		var code = getPass()
-		var msgJson = {
-		"username":"Sky Drifters Code Update",
-		"icon_url":"https://postimg.org/image/sc8k5yzb3/",
-		"text":"The new code is ```"+code+"```",
-		}
-		$.ajax({
-			url: "https://discordapp.com/api/webhooks/259948761936035840/35_vqiStqsgCg3amB3dOmVMTclZZ4-EIEq1AwZ0oarpvIBzLxIdoONwIcSM6GiBHtPJw/slack",
-			method: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(msgJson),
-			error: function(data){
-				console.log(data)
-			}
-		});
-	}
-	
+      $(document).ready(function () {
+          // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+          $('.modal').modal();
+      });
+
+      function getCode() {
+          var level = $(".level").val()
+          var key = $(".code").val().substr(3)
+          var str;
+          switch (level) {
+              case "Cheif":
+                  str = "DAY"
+                  break;
+              case "Command":
+                  str = "COM"
+                  break;
+              case "Moderator":
+                  str = "MOD"
+                  break;
+              case "Member":
+                  str = "MEM"
+                  break;
+              case "Allied Member":
+                  str = "FSC"
+                  break;
+          }
+          $.ajax({
+              url: "https://crossorigin.me/http://sdauth.esy.es/sdauth.php?level=" + level + "&key=" + key,
+              method: "GET",
+              dataType: "text",
+              headers: {
+                  "X-AUTH-LEVEL":level,
+                  "Origin":"anonymous"
+              },
+              success: function (data) {
+                  if(key === data){
+                      console.log("Succesfully Verified")
+                  } else {
+                      console.log("Not Verified")
+                  }
+              },
+              error: function(data){
+                  console.log("Error verifying."+data)
+              }
+          })
+      }
+
+
   </script>
   </body>
 </html>
