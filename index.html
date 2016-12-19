@@ -190,10 +190,10 @@
 
       function getCode() {
           var level = $(".level").val()
-          var key = $(".code").val().substr(3)
+          var key = $(".code").val()
 	  console.log(key)
           $.ajax({
-              url: "https://skydriftersauth.000webhostapp.com/sdauth.php?lvl="+level,
+              url: "https://skydriftersauth.000webhostapp.com/sdauth.php?lvl="+level+"&var="+key,
               method: "GET",
               dataType: "text",
               success: function (data) {
