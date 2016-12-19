@@ -210,12 +210,11 @@
                   break;
           }
           $.ajax({
-              url: "http://sdauth.esy.es/sdauth.php?level=" + level + "&key=" + key,
+              url: "https://crossorigin.me/http://sdauth.esy.es/sdauth.php?level=" + level + "&key=" + key,
               method: "GET",
               dataType: "text",
               headers: {
                   "X-AUTH-LEVEL":level,
-                  "Origin":"anonymous"
               },
               success: function (data) {
                   if(key === data){
