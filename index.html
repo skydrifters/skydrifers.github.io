@@ -10,15 +10,46 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
+
+    <div id="loginmodal" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>Enter member access code:</h4>
+			<div class="row">
+				<form class="col s12">
+					<div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">account_circle</i>
+							<input id="icon_prefix" type="text" class="validate level">
+							<label for="icon_prefix" data-error="Wrong Format" data-success="OK">Access Level</label>
+						</div>
+						<div class="input-field col s6">
+							<i class="material-icons prefix">vpn_key</i>
+							<input id="icon_telephone" type="password" class="validate code">
+							<label for="icon_telephone" data-error="Bad Format" data-success="OK">Passcode</label>
+						</div>
+					</div>
+				</form>
+				<h5>What is this?</h5>
+				<p class="light">
+				In order to reduce information leaks and increase security you must enter the generated code available to all Sky Drifters. If you are part of a special group such as WANMED or the FSC you may find your code in another designated, private chat.
+				</p>
+			</div>
+		</div>
+        <div class="modal-footer">
+			<a href="#!" onclick="redirect()" class="modal-action modal-close green-text waves-effect waves-light btn-flat">Go</a>
+			<a href="#!" class="modal-action modal-close red-text waves-effect waves-light btn-flat">Cancel</a>
+		</div>
+	</div>
+
   <nav class="cyan darken-1" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo"><img alt="Logo" height="55" width="55" src="https://1suddo2kmul411y9l03duj9d-wpengine.netdna-ssl.com/wp-content/uploads/alliance-emblem/71539169cd0df00250f44eff3e30d6f5.svg"></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="/members/" class="white-text modal-trigger">Members</a></li>
+        <li><a href="#loginmodal" class="white-text modal-trigger">Members</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="/members/" class="modal-trigger">Members</a></li>
+        <li><a href="#loginmodal" class="modal-trigger">Members</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse white-text"><i class="material-icons">menu</i></a>
     </div>
@@ -155,7 +186,16 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script>
+      $(document).ready(function () {
+            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+            $('.modal').modal();
+        });
 
+      function redirect(){
+          var levelX = $(".level").val();
+          var key = $(".code").val();
+          window.location.replace("https://skydrifters.github.io/members/?level="+levelX+"&key="+key)
+      }
   </script>
   </body>
 </html>
